@@ -5,18 +5,26 @@ import { getAccessToken } from './requests/getAccessToken';
 function App() {
   const [user, setUser] = useState('');
   const [userName, setUserName] = useState('');
-  const [favArtist, setFavArtist] = useState('');
-  const [favGenre, setFavGenre] = useState('');
+  const [favArtists, setFavArtists] = useState([]);
+  const [favTracks, setFavTracks] = useState([]);
  
   useEffect(() => {
     const accessToken = getAccessToken();
     setUser(accessToken);
 
-    fetch('https://api.spotify.com/v1/me/following?type=artist', {
+    fetch('https://api.spotify.com/v1/me/top/artists', {
       headers: {'Authorization': 'Bearer ' + accessToken}
     })
     .then((response) => response.json())
-    .then(data => console.log(data.artists.items[0].name))
+    .then(data => console.log(data.items))
+    .catch(() => console.log('aaa'))
+
+    fetch('https://api.spotify.com/v1/me/top/tracks', {
+      headers: {'Authorization': 'Bearer ' + accessToken}
+    })
+    .then((response) => response.json())
+    .then(data => console.log(data.items))
+    .catch(() => console.log('aaa'))
   });
 
   return (
@@ -28,7 +36,7 @@ function App() {
         : 'https://better-playlists-backend.herokuapp.com/login' }
       }>Sign in with Spotify</button> :
       <div>
-        {userName}
+        
       </div>
       }
     </div>
