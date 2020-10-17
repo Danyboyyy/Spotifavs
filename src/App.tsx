@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { getAccessToken } from './requests/getAccessToken';
-/*
-let empty: {
-  name: string,
-  followers: number,
-  image: string
-}[];*/
+import Login from './components/Login';
+import Tracks from './components/Tracks';
+import Artists from './components/Artists';
 
 function App() {
   const [user, setUser] = useState('');
@@ -37,36 +34,18 @@ function App() {
     .then(data => setFavTracks(data.items))
   }, []);
 
-  let renderArtists = userName && favArtists ?
-    favArtists.map((item: any) => {
-      return(
-        <p>{item.name}</p>
-      );
-    }) : <div></div>;
-
-    let renderTracks = userName && favTracks ?
-    favTracks.map((item: any) => {
-      return(
-        <p>{item.name}</p>
-      );
-    }) : <div></div>;
-
   return (
     <div className="App">
       {!user ? 
-        <button onClick={() => {
-          window.location.href = window.location.href.includes('localhost') 
-          ? 'http://localhost:8888/login' 
-          : 'https://better-playlists-backend.herokuapp.com/login' }
-        }>Sign in with Spotify</button> 
+        <Login /> 
       :
-        <>
-          <div>{userName}</div>
+        <div>
+          <h1>{userName}´s Favorites</h1>
           <div className="display">
-            {favArtists ? <div className="card">{renderArtists}</div> : console.log('ps no')}
-            {favTracks ? <div className="card">{renderTracks}</div> : console.log('ps no')}
+            {favArtists ? <Tracks tracks={favTracks} /> : console.log('ps no')}
+            {favTracks ? <Artists artists={favArtists} /> : console.log('ps no')}
           </div>
-        </>
+        </div>
       }
     </div>
   );
