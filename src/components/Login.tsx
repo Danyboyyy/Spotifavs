@@ -7,7 +7,7 @@ const Login = () => {
       <button className="loginButton" onClick={() => {
         window.location.href = window.location.href.includes('localhost') 
         ? 'http://localhost:8888/login' 
-        : 'https://better-playlists-backend.herokuapp.com/login' }
+        : 'https://spotifavs-backend.herokuapp.com/' }
       }><h3>Sign in</h3></button> 
     </div>
   );
